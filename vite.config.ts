@@ -1,3 +1,4 @@
+import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 
@@ -5,11 +6,15 @@ import vue from "@vitejs/plugin-vue";
 export default defineConfig(async () => ({
   plugins: [vue()],
 
-  // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
-  //
-  // 1. prevent vite from obscuring rust errors
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.vue'],
+    alias: {
+      "@/": fileURLToPath(new URL("./src/", import.meta.url)),
+    },
+  },
+
   clearScreen: false,
-  // 2. tauri expects a fixed port, fail if that port is not available
+
   server: {
     port: 1420,
     strictPort: true,
