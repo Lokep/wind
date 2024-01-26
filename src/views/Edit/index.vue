@@ -1,14 +1,14 @@
 <style lang="scss" scoped>
-@import 'https://gw.alipayobjects.com/render/p/yuyan_npm/@alipay_lakex-doc/1.12.0/umd/doc.css';
-@import 'https://unpkg.com/antd@4.24.13/dist/antd.css';
+@import "https://gw.alipayobjects.com/render/p/yuyan_npm/@alipay_lakex-doc/1.12.0/umd/doc.css";
+@import "https://unpkg.com/antd@4.24.13/dist/antd.css";
 </style>
 
 <template>
-  <div id="editor" class="container"></div>
+  <div id="editor" class="container w-full h-full"></div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { nextTick, onMounted } from "vue";
 
 const useEditor = () => {
   let times = 0;
@@ -16,13 +16,11 @@ const useEditor = () => {
   const init = function () {
     return Promise.all([
       // @ts-ignore
-      import("https://unpkg.com/react@18/umd/react.production.min.js"),
+      import("@/assets/editor/react.min.js"),
       // @ts-ignore
-      import("https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"),
+      import("@/assets/editor/react-dom.min.js"),
       // @ts-ignore
-      import(
-        "https://gw.alipayobjects.com/render/p/yuyan_npm/@alipay_lakex-doc/1.12.0/umd/doc.umd.js"
-      ),
+      import("@/assets/editor/yuque.min.js"),
     ])
       .then(() => {
         const { createOpenEditor } = (window as any).Doc;
@@ -68,9 +66,11 @@ const useEditor = () => {
   };
 };
 
-const { init, retry } = useEditor();
+const { init } = useEditor();
 
 onMounted(() => {
-  init();
+  nextTick(() => {
+    init();
+  });
 });
 </script>

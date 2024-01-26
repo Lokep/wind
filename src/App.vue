@@ -1,5 +1,5 @@
-
 <style scoped lang="scss">
+
 @keyframes van-fade-in {
   from {
     opacity: 0;
@@ -20,28 +20,25 @@
   }
 }
 
-
 .fade {
   &-enter-active {
-    animation: .3s van-fade-in both ease-out;
+    animation: 0.3s van-fade-in both ease-out;
   }
 
   &-leave-active {
-    animation: .3s van-fade-out both ease-in;
+    animation: 0.3s van-fade-out both ease-in;
   }
 }
-
-
 </style>
 
 <template>
   <router-view v-slot="{ Component }">
-    <transition name="fade">
-      <component :is="Component" />
-    </transition>
+    <keep-alive>
+      <transition name="fade">
+        <component :is="Component" />
+      </transition>
+    </keep-alive>
   </router-view>
 </template>
-
-
 
 <script setup lang="ts"></script>

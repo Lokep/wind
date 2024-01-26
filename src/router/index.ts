@@ -5,14 +5,17 @@ export const router = createRouter({
   routes: [
     {
       path: "/",
-      redirect: '/edit'
+      redirect: '/edit',
+      component: () => import("@/components/Layout/index.vue"),
+      children: [
+        {
+          path: 'edit/:id?',
+          name: "Edit",
+          component: () => import("../views/Edit/index.vue"),
+        }
+      ]
     },
 
-    {
-      path: '/edit',
-      name: "home",
-      component: () => import("../views/Edit/index.vue"),
-    },
 
     {
       path: '/404',
