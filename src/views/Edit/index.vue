@@ -9,6 +9,9 @@
 
 <script setup lang="ts">
 import { nextTick, onMounted } from "vue";
+import { readDir } from '@/api/command';
+
+readDir('/Users/lokep/Desktop/project/github/leetcode/')
 
 const useEditor = () => {
   let times = 0;

@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 .layout {
   .leftbar {
-    width: 300px;
+    width: 30vw;
   }
 }
 </style>
