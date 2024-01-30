@@ -6,16 +6,16 @@ export const greet = async (name: string) => {
 
 
 export const readDir = async (path: string) => {
-  const result = await invoke("read_dir", { path });
+  const result = await invoke("read_directory", { path });
   console.log('[result]: ', result)
   return result;
 };
 
 
-export const readFile = async (path: string) => {
+export const readFile = async (path: string): Promise<Array<any>> => {
   const result = await invoke("read_file", { path });
   console.log('[result]: ', result)
-  return result;
+  return result as any;
 };
 
 export const writeFile = async (path: string, content: string) => {

@@ -8,10 +8,20 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted } from "vue";
-import { readDir } from '@/api/command';
+import { useFileStore } from "@/store/fileStore";
+import { nextTick, onMounted, watch } from "vue";
+import { storeToRefs } from 'pinia'
 
-readDir('/Users/lokep/Desktop/project/github/leetcode/')
+const fileStore = useFileStore()
+
+const { activePath, contentCache } = storeToRefs(fileStore);
+
+let editor: any = null
+
+watch(() => activePath.value, () => {
+  console.log("[activePath]: ", activePath.value)
+  editor.setDocument("text/markdown", contentCache.value[activePath.value])
+})
 
 const useEditor = () => {
   let times = 0;
@@ -25,23 +35,28 @@ const useEditor = () => {
       // @ts-ignore
       import("@/assets/editor/yuque.min.js"),
     ])
-      .then(() => {
-        const { createOpenEditor } = (window as any).Doc;
-        // 创建编辑器
-        const editor = createOpenEditor(document.getElementById("editor"), {
-          input: {},
-          image: {
-            isCaptureImageURL() {
-              return false;
+      .then((res) => {
+        const { createOpenEditor } = (window as any).Doc || {};
+
+        console.log(window, res)
+
+        if (createOpenEditor) {
+          // 创建编辑器
+          editor = createOpenEditor(document.getElementById("editor"), {
+            input: {},
+            image: {
+              isCaptureImageURL() {
+                return false;
+              },
             },
-          },
-        });
-        // 设置内容
-        editor.setDocument("text/markdown", "欢迎来到yuque编辑器");
-        // 监听内容变动
-        editor.on("contentchange", () => {
-          console.info(editor.getDocument("text/markdown"));
-        });
+          });
+          // 设置内容
+          editor.setDocument("text/markdown", "欢迎来到yuque编辑器");
+          // 监听内容变动
+          editor.on("contentchange", () => {
+            console.info(editor.getDocument("text/markdown"));
+          });
+        }
       })
       .catch((err) => {
         console.log("[init]: ", err);
@@ -69,10 +84,11 @@ const useEditor = () => {
   };
 };
 
-const { init } = useEditor();
+
 
 onMounted(() => {
   nextTick(() => {
+    const { init } = useEditor();
     init();
   });
 });
