@@ -14,7 +14,7 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             greet,
-            file_system::read_dir,
+            file_system::read_directory,
             file_system::read_file,
             file_system::create_dir,
             file_system::create_file,
